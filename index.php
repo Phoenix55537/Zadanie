@@ -5,25 +5,36 @@
     $dbname = "dane";
 
     $conn = mysqli_connect($host, $dbuser, $dbpass, $dbname) or die("Błąd połączenia");
-
+    $Widok = "Tabela";
+    $Ilosc = 0;
     $Widok = $_POST['Widok'];
-    echo $Widok;
+    // echo $Widok;
     $Ilosc = $_POST['Ilosc'];
-    echo $Ilosc;
+    // echo $Ilosc;
+    settype($Ilosc, "int");
+    // echo gettype($Ilosc);
 
-    if ($Ilosc>=0) {
-        if ($Ilosc == 0 || $Ilosc <= 40) {
-            $q = "SELECT imie,nazwisko,rok_urodzenia,opis,zdjecie FROM osoby";
+    
+        if ($Ilosc == 0 || $Ilosc == 40) {
+            $q = "SELECT imie,nazwisko,rok_urodzenia,opis,zdjecie FROM osoby;";
             $result = mysqli_query($conn,$q);
-        }
-        elseif ($Ilosc>0 && $Ilosc<40) {
-           $q = "SELECT imie,nazwisko,rok_urodzenia,opis,zdjecie FROM osoby LIMIT '$Ilosc'";
-           $resutlt = mysqli_query($conn,$q);
-        }
-    };
-    echo "<pre>";
-        var_dump($result);
-    echo "</pre>";
+            echo "<pre>";
+                var_dump($result);
+            echo "</pre>";
+        };
+
+        if ($Ilosc>0) {
+            if ($Ilosc<40) {
+            $q = "SELECT imie,nazwisko,rok_urodzenia,opis,zdjecie FROM osoby LIMIT $Ilosc;";
+            $result = mysqli_query($conn,$q);
+            echo "<pre>";
+                var_dump($result);
+            echo "</pre>";
+            };
+        };
+    // echo "<pre>";
+    //     var_dump($result);
+    // echo "</pre>";
 ?>
 
 <!DOCTYPE html>
@@ -46,7 +57,7 @@
                     <option value="Karta">Karta</option>
                 </select>
                 <span>Ile wyświetlić rekordów (0 = WSZYSTKIE)</span>
-                <input type="number" name="Ilosc" id="" default="0">
+                <input type="number" name="Ilosc" id="" min="0" max="40">
                 <button type="submit">POKAŻ REKORDY</button>
             </form>
         </div>
