@@ -56,14 +56,14 @@
         <div class="form">
             <form action="" method="post">
                 <span>W jaki sposób ma zostać wyświetlony wynik</span>
-                <select name="Widok" id="" required>
+                <select name="Widok" id="">
                     <option value="Tabela">Tabela</option>
                     <option value="Lista">Lista</option>
                     <option value="Karta">Karta</option>
                 </select>
                 <br>
                 <span>Ile wyświetlić rekordów (0 = WSZYSTKIE)</span>
-                <input type="number" name="Ilosc" id="" min="0" max="40" required>
+                <input type="number" name="Ilosc" id="" min="0" max="40">
                 <br>
                 <button type="submit">POKAŻ REKORDY</button>
             </form>
@@ -117,7 +117,17 @@
                 echo "</table></div>";
             }
 
-            if ($Widok == "Lista")
+            if ($Widok == "Lista") {
+                while ($row=mysqli_fetch_assoc($result)) { 
+                    $LP = $LP + 1;
+                    echo "
+                    <div class='list'>
+                    <span class='span'>". $LP .". ". $row['imie'] ." ". $row['nazwisko'] ."</span>
+                        <li>Rok Urodzenia: ". $row['rok_urodzenia'] ."</li>
+                        <li>Opis: ". $row['opis'] ."</li>
+                    </div>";
+                }
+            }
 
             if ($Widok == "Karta")
             ?>
