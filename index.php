@@ -7,10 +7,14 @@
     $conn = mysqli_connect($host, $dbuser, $dbpass, $dbname) or die("Błąd połączenia");
     $Widok = "Tabela";
     $Ilosc = 0;
-    $Widok = $_POST['Widok'];
-    // echo $Widok;
-    $Ilosc = $_POST['Ilosc'];
-    // echo $Ilosc;
+
+    if (isset($_POST['Widok']) && isset($_POST['Ilosc'])) {
+        $Widok = $_POST['Widok'];
+        // echo $Widok;
+        $Ilosc = $_POST['Ilosc'];
+        // echo $Ilosc;
+    }
+   
     settype($Ilosc, "int");
     // echo gettype($Ilosc);
 
@@ -52,13 +56,15 @@
         <div class="form">
             <form action="" method="post">
                 <span>W jaki sposób ma zostać wyświetlony wynik</span>
-                <select name="Widok" id="">
+                <select name="Widok" id="" required>
                     <option value="Tabela">Tabela</option>
                     <option value="Lista">Lista</option>
                     <option value="Karta">Karta</option>
                 </select>
+                <br>
                 <span>Ile wyświetlić rekordów (0 = WSZYSTKIE)</span>
-                <input type="number" name="Ilosc" id="" min="0" max="40">
+                <input type="number" name="Ilosc" id="" min="0" max="40" required>
+                <br>
                 <button type="submit">POKAŻ REKORDY</button>
             </form>
         </div>
@@ -66,40 +72,49 @@
             <?php
             $LP = 0;
             if ($Widok == "Tabela") {
-                echo "<table>
-                    <tr>
-                        <th>
-                            LP.
-                        </th>
-                        <th>
-                            IMIĘ I NAZWISKO
-                        </th>
-                        <th>
-                            ROK URODZENIA
-                        </th>
-                        <th>
-                            OPIS
-                        </th>
-                        <th>
-                            ZDJĘCIE
-                        </th>
-                    </tr>";
+                echo "
+                    <div>
+                        <h1>Liczba rekordów zwróconych z bazy:". $Ilosc . "</h1>
+                    </div>
+                        <div>
+                            <table class='table' border='1'>
+                                <tr>
+                                    <th class='table_th'>
+                                        LP.
+                                    </th>
+                                    <th class='table_th'>
+                                        IMIĘ I NAZWISKO
+                                    </th>
+                                    <th class='table_th'>
+                                        ROK URODZENIA
+                                    </th>
+                                    <th class='table_th'>
+                                        OPIS
+                                    </th>
+                                    <th class='table_th'>
+                                        ZDJĘCIE
+                                    </th>
+                                </tr>
+                        </div>";
                    
                     while ($row=mysqli_fetch_assoc($result)) { 
                         $LP = $LP + 1;
-                        echo "<tr>
-                        <td>". $LP ."</td>
-                        <td>". $row['imie'] ."</td>
-                        <td>". $row['nazwisko'] ."</td>
-                        <td>". $row['rok_urodzenia'] ."</td>
-                        <td><img src=". $row['zdjecie'] ."></td>
+                        echo "
+                        <tr>
+                            <td class='table_td'>". $LP ."</td>
+                            <td class='table_td'>". $row['imie'] ."</td>
+                            <td class='table_td'>". $row['nazwisko'] ."</td>
+                            <td class='table_td'>". $row['rok_urodzenia'] ."</td>
+                            <td class='table_td'>
+                                <div class='t_img'><img src=". $row['zdjecie'] ."></div>
+                            </td>
                         </tr>";
                         
                         // echo "<pre>";
                         // var_dump($row);
                         // echo "</pre>";
                     }
-                echo "</table>";
+                echo "</table></div>";
             }
 
             if ($Widok == "Lista")
