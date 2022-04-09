@@ -18,23 +18,24 @@
         if ($Ilosc == 0 || $Ilosc == 40) {
             $q = "SELECT imie,nazwisko,rok_urodzenia,opis,zdjecie FROM osoby;";
             $result = mysqli_query($conn,$q);
-            echo "<pre>";
-                var_dump($result);
-            echo "</pre>";
+            // echo "<pre>";
+            //     var_dump($result);
+            // echo "</pre>";
         };
 
         if ($Ilosc>0) {
             if ($Ilosc<40) {
             $q = "SELECT imie,nazwisko,rok_urodzenia,opis,zdjecie FROM osoby LIMIT $Ilosc;";
             $result = mysqli_query($conn,$q);
-            echo "<pre>";
-                var_dump($result);
-            echo "</pre>";
+            // echo "<pre>";
+            //     var_dump($result);
+            // echo "</pre>";
             };
         };
     // echo "<pre>";
     //     var_dump($result);
     // echo "</pre>";
+    mysqli_close($conn);
 ?>
 
 <!DOCTYPE html>
@@ -61,7 +62,51 @@
                 <button type="submit">POKAŻ REKORDY</button>
             </form>
         </div>
-        <div class="wynik"></div>
+        <div class="wynik">
+            <?php
+            $LP = 0;
+            if ($Widok == "Tabela") {
+                echo "<table>
+                    <tr>
+                        <th>
+                            LP.
+                        </th>
+                        <th>
+                            IMIĘ I NAZWISKO
+                        </th>
+                        <th>
+                            ROK URODZENIA
+                        </th>
+                        <th>
+                            OPIS
+                        </th>
+                        <th>
+                            ZDJĘCIE
+                        </th>
+                    </tr>";
+                   
+                    while ($row=mysqli_fetch_assoc($result)) { 
+                        $LP = $LP + 1;
+                        echo "<tr>
+                        <td>". $LP ."</td>
+                        <td>". $row['imie'] ."</td>
+                        <td>". $row['nazwisko'] ."</td>
+                        <td>". $row['rok_urodzenia'] ."</td>
+                        <td><img src=". $row['zdjecie'] ."></td>
+                        </tr>";
+                        
+                        // echo "<pre>";
+                        // var_dump($row);
+                        // echo "</pre>";
+                    }
+                echo "</table>";
+            }
+
+            if ($Widok == "Lista")
+
+            if ($Widok == "Karta")
+            ?>
+        </div>
     </main>
 </body>
 </html>
