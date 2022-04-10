@@ -123,3 +123,31 @@ li {
     margin-left: 10%;
     font-size: larger;
 }
+
+
+
+
+/* KARTA */
+
+
+
+
+.card {
+    margin: 2%;
+    border: 1px solid black;
+    padding-top: 10px;
+    background-color: darkorange;
+    text-align: center;
+    width: 20%; 
+    height: 18vh;
+    border-radius: 10px;
+}
+
+.cards {
+    margin-left: 5%;
+    margin-right: 5%;
+    justify-content: center;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}

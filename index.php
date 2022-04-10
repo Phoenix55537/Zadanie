@@ -22,6 +22,7 @@
         if ($Ilosc == 0 || $Ilosc == 40) {
             $q = "SELECT imie,nazwisko,rok_urodzenia,opis,zdjecie FROM osoby;";
             $result = mysqli_query($conn,$q);
+            $Ilosc = 40;
             // echo "<pre>";
             //     var_dump($result);
             // echo "</pre>";
@@ -74,7 +75,7 @@
             if ($Widok == "Tabela") {
                 echo "
                     <div>
-                        <h1>Liczba rekordów zwróconych z bazy:". $Ilosc . "</h1>
+                        <h1>Liczba rekordów zwróconych z bazy: ". $Ilosc . "</h1>
                     </div>
                         <div>
                             <table class='table' border='1'>
@@ -118,6 +119,11 @@
             }
 
             if ($Widok == "Lista") {
+                echo "
+                <div>
+                    <h1>Liczba rekordów zwróconych z bazy: ". $Ilosc . "</h1>
+                </div>";
+
                 while ($row=mysqli_fetch_assoc($result)) { 
                     $LP = $LP + 1;
                     echo "
@@ -129,7 +135,30 @@
                 }
             }
 
-            if ($Widok == "Karta")
+            if ($Widok == "Karta"){
+                echo "
+                <div>
+                    <h1>Liczba rekordów zwróconych z bazy: ". $Ilosc . "</h1>
+                </div>
+                <section class='cards'>";
+
+                while ($row=mysqli_fetch_assoc($result)) { 
+                    echo "
+                    <div class='card'>
+                        <div>
+                            <img src=". $row['zdjecie'] .">
+                        </div>
+                        <div>
+                            <span>". $row['imie'] ." ". $row['nazwisko'] ."</span>
+                        </div>
+                        <div>
+                            <span>". $row['opis'] ."</span>
+                        </div>
+                    </div>
+                    ";
+                }
+                echo "</section>";
+            }
             ?>
         </div>
     </main>
