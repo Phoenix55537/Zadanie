@@ -1,46 +1,16 @@
 <?php
-    $host = "localhost";
-    $dbuser = "root";
-    $dbpass = "";
-    $dbname = "dane";
+include_once "connect.php";
+$Widok = "Tabela";
+$Ilosc = 0;
 
-    $conn = mysqli_connect($host, $dbuser, $dbpass, $dbname) or die("Błąd połączenia");
-    $Widok = "Tabela";
-    $Ilosc = 0;
-
-    if (isset($_POST['Widok']) && isset($_POST['Ilosc'])) {
-        $Widok = $_POST['Widok'];
-        // echo $Widok;
-        $Ilosc = $_POST['Ilosc'];
-        // echo $Ilosc;
-    }
+include_once "widok_ilość.php";
    
-    settype($Ilosc, "int");
-    // echo gettype($Ilosc);
+settype($Ilosc, "int");
 
     
-        if ($Ilosc == 0 || $Ilosc == 40) {
-            $q = "SELECT imie,nazwisko,rok_urodzenia,opis,zdjecie FROM osoby;";
-            $result = mysqli_query($conn,$q);
-            $Ilosc = 40;
-            // echo "<pre>";
-            //     var_dump($result);
-            // echo "</pre>";
-        };
+include_once "widok_ilość.php";
 
-        if ($Ilosc>0) {
-            if ($Ilosc<40) {
-            $q = "SELECT imie,nazwisko,rok_urodzenia,opis,zdjecie FROM osoby LIMIT $Ilosc;";
-            $result = mysqli_query($conn,$q);
-            // echo "<pre>";
-            //     var_dump($result);
-            // echo "</pre>";
-            };
-        };
-    // echo "<pre>";
-    //     var_dump($result);
-    // echo "</pre>";
-    mysqli_close($conn);
+mysqli_close($conn);
 ?>
 
 <!DOCTYPE html>
@@ -73,91 +43,15 @@
             <?php
             $LP = 0;
             if ($Widok == "Tabela") {
-                echo "
-                    <div>
-                        <h1>Liczba rekordów zwróconych z bazy: ". $Ilosc . "</h1>
-                    </div>
-                        <div>
-                            <table class='table' border='1'>
-                                <tr>
-                                    <th class='table_th'>
-                                        LP.
-                                    </th>
-                                    <th class='table_th'>
-                                        IMIĘ I NAZWISKO
-                                    </th>
-                                    <th class='table_th'>
-                                        ROK URODZENIA
-                                    </th>
-                                    <th class='table_th'>
-                                        OPIS
-                                    </th>
-                                    <th class='table_th'>
-                                        ZDJĘCIE
-                                    </th>
-                                </tr>
-                        </div>";
-                   
-                    while ($row=mysqli_fetch_assoc($result)) { 
-                        $LP = $LP + 1;
-                        echo "
-                        <tr>
-                            <td class='table_td'>". $LP ."</td>
-                            <td class='table_td'>". $row['imie'] ." ". $row['nazwisko'] ."</td>
-                            <td class='table_td'>". $row['rok_urodzenia'] ."</td>
-                            <td class='table_td'>". $row['opis'] ."</td>
-                            <td class='table_td'>
-                                <div class='t_img'><img src=". $row['zdjecie'] ."></div>
-                            </td>
-                        </tr>";
-                        
-                        // echo "<pre>";
-                        // var_dump($row);
-                        // echo "</pre>";
-                    }
-                echo "</table></div>";
+                include "tabela.php";
             }
 
             if ($Widok == "Lista") {
-                echo "
-                <div>
-                    <h1>Liczba rekordów zwróconych z bazy: ". $Ilosc . "</h1>
-                </div>";
-
-                while ($row=mysqli_fetch_assoc($result)) { 
-                    $LP = $LP + 1;
-                    echo "
-                    <div class='list'>
-                    <span class='span'>". $LP .". ". $row['imie'] ." ". $row['nazwisko'] ."</span>
-                        <li>Rok Urodzenia: ". $row['rok_urodzenia'] ."</li>
-                        <li>Opis: ". $row['opis'] ."</li>
-                    </div>";
-                }
+                include "list.php";
             }
 
             if ($Widok == "Karta"){
-                echo "
-                <div>
-                    <h1>Liczba rekordów zwróconych z bazy: ". $Ilosc . "</h1>
-                </div>
-                <section class='cards'>";
-
-                while ($row=mysqli_fetch_assoc($result)) { 
-                    echo "
-                    <div class='card'>
-                        <div>
-                            <img src=". $row['zdjecie'] .">
-                        </div>
-                        <div>
-                            <span>". $row['imie'] ." ". $row['nazwisko'] ."</span>
-                        </div>
-                        <div>
-                            <span>". $row['opis'] ."</span>
-                        </div>
-                    </div>
-                    ";
-                }
-                echo "</section>";
+                include "card.php";
             }
             ?>
         </div>
