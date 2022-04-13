@@ -103,9 +103,9 @@
                         echo "
                         <tr>
                             <td class='table_td'>". $LP ."</td>
-                            <td class='table_td'>". $row['imie'] ."</td>
-                            <td class='table_td'>". $row['nazwisko'] ."</td>
+                            <td class='table_td'>". $row['imie'] ." ". $row['nazwisko'] ."</td>
                             <td class='table_td'>". $row['rok_urodzenia'] ."</td>
+                            <td class='table_td'>". $row['opis'] ."</td>
                             <td class='table_td'>
                                 <div class='t_img'><img src=". $row['zdjecie'] ."></div>
                             </td>
